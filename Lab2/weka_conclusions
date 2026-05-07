@@ -1,0 +1,93 @@
+2. Training machine learning algorithms using Weka GUI Explorer
+
+I chose the iris dataset for this part of the lab work.
+
+Firstly, I had to convert the dataset to ARFF format. I copied all the data in a text file, then I added the attributes
+that specify the ARFF format and saved it as iris.arff.
+
+Then I tested a model with the J48 tree and another one with the MultilayerPerceptron.
+
+The J48 tree is a decision tree whose objective is to reduce entropy. It does this by using metrics like information
+gain, allowing it to choose the best threshold at each depth.
+
+The MultilayerPerceptron is a neural network whose objective is to minimize prediction error. It does this by adjusting
+the weights of its neurons through backpropagation, allowing the network to learn non-linear patterns across its layers.
+
+When I tested the model with the J48 tree with the default parameters I got this results:
+
+Correctly Classified Instances         144               96      %
+Incorrectly Classified Instances         6                4      %
+Kappa statistic                          0.94
+Mean absolute error                      0.035
+Root mean squared error                  0.1586
+Relative absolute error                  7.8705 %
+Root relative squared error             33.6353 %
+Total Number of Instances              150
+
+And for the MultilayerPerceptron:
+
+Correctly Classified Instances         146               97.3333 %
+Incorrectly Classified Instances         4                2.6667 %
+Kappa statistic                          0.96
+Mean absolute error                      0.0327
+Root mean squared error                  0.1291
+Relative absolute error                  7.3555 %
+Root relative squared error             27.3796 %
+Total Number of Instances              150
+
+
+Then I changed the parameter values with these combinations:
+confidenceFactor	minNumObj	unpruned	subtreeRaising
+0.25	            2	        False	    True
+0.15	            5	        False	    True
+0.35	            1	        False	    False
+0.25	            2	        True	    True
+
+confidenceFactor:	Controls pruning. Low = more pruning, simpler tree.
+minNumObj:	Minimum instances per leaf. Higher = fewer, bigger leaves.
+unpruned:	True = no pruning; False = prune using confidenceFactor.
+subtreeRaising:	Adjusts branches during pruning for better generalization.
+
+Pruning: remove parts of the tree that dont improve the classification.
+
+And the best result was the default one, the first combination and the last combination with a 96% of correct guesses.
+
+
+For the MultilayerPerceptron I used this parameters:
+learningRate	momentum	trainingTime	hiddenLayers
+0.1	            0.2	        500	            a
+0.3	            0.3	        1000	        5
+0.2	            0.5	        500	            10
+0.1	            0.3	        500	            0
+
+learningRate:	Weight update speed. High = fast but unstable.
+momentum:	Helps avoid local minima; smooths weight changes.
+trainingTime:	Number of epochs (iterations). More = more learning, longer training.
+hiddenLayers:	Number of neurons in hidden layers. More = can learn complex patterns.
+
+And the best result was the third combination with a 98% of correct guesses.
+
+
+
+When it comes to the data split I have been using the cross-validation with 10 folds in all the previous models.
+But now I used the percentage split with a 75% and a 85% split for training, and the results changed a lot.
+With the 75% split I got an accuracy of 89.1892% and with the 85% split an accuracy of 100%.
+
+And using the MultilayerPerceptron I got 97.2973% with the 75% split and 95.4545% with the 85% split.
+
+
+
+A confusion matrix shows how many instances of each class were correctly or incorrectly classified.
+For the iris dataset (3 classes: setosa, versicolor, virginica):
+
+Diagonal elements: correctly classified instances (True Positives).
+Non-diagonal elements: misclassified instances (False Positives/Negatives).
+
+Accuracy is the ratio of correctly classified instances to the total:
+
+Accuracy = True Positives / Total instances
+
+
+The MultilayerPerceptron worked better in general in every task through the lab work.
+MultilayerPerceptron had better accuracy because it can learn non-linear boundaries and feature interactions, allowing it to correctly
+classify borderline cases that a decision tree might misclassify.
